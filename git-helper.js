@@ -11,6 +11,10 @@
 var Git = require('nodegit');
 
 module.exports = function(repositoryPath) {
+  if (!repositoryPath) {
+    repositoryPath = '.git/';
+  }
+
   var Repository = Git.Repository.open(repositoryPath);
 
   return {
