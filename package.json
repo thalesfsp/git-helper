@@ -1,6 +1,6 @@
 {
   "name": "git-helper",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A JS library to help with basic Git commands",
   "main": "git-helper.js",
   "scripts": {
