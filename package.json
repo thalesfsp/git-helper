@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/thalesfsp/git-helper#readme",
   "dependencies": {
-    "nodegit": "0.4.*"
+    "nodegit": "nodegit/nodegit#master"
   }
 }
