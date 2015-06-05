@@ -4,8 +4,10 @@
  * @author Thales Pinheiro
  * @since 05/28/2015
  * @copyright Thales Pinheiro
+ * @requires nodegit
  * @see https://github.com/thalesfsp/git-helper
- * A JS library to help with basic Git commands
+ * @description A JS library to help with basic Git commands
+ * @todo add others functionalities
  */
 
 var Git = require('nodegit');
@@ -25,45 +27,31 @@ module.exports = function(repositoryPath) {
        * Add the given remote
        * @param {String} name the remote's name
        * @param {String} url the remote's url
-       * @param {Function} [cb] callback the result of the operation
        */
-      add: function(name, url, cb) {
+      add: function(name, url) {
         Repository.then(function(repository) {
-          Git.Remote.create(repository, name, url).then(function(result) {
-            if (cb) {
-              cb(result);
-            }
-          });
+          return Git.Remote.create(repository, name, url);
         });
       },
 
       /**
        * Remove the given remote
        * @param {String} name the remote's name
-       * @param {Function} [cb] callback the result of the operation
        */
-      remove: function(name, cb) {
+      remove: function(name) {
         Repository.then(function(repository) {
-          Git.Remote.delete(repository, name).then(function(result) {
-            if (cb) {
-              cb(result);
-            }
-          });
+          return Git.Remote.delete(repository, name);
         });
       },
 
       /**
        * List and printout all remotes
-       * @param {Function} [cb] callback list of remotes. If specified, the output will be supressed
+       * @param {Function} callback with the list of remotes
        */
-      list: function(cb) {
+      list: function(callback) {
         Repository.then(function(repository) {
           Git.Remote.list(repository).then(function(remotes) {
-            if (cb) {
-              cb(remotes);
-            } else {
-              console.log(remotes);
-            }
+            callback(remotes);
           });
         });
       },
@@ -71,29 +59,15 @@ module.exports = function(repositoryPath) {
       /**
        * Update the given remote
        * @param {String} name the remote's name
-       * @param {Object} options update options
-       * @param {Boolean} [options.force] if true, will delete and recreate the remote
-       * @param {String} options.url the remote url
-       * @param {Function} [options.cb] callback the result of the operation
-       * @returns {Number} 0 means success
+       * @param {String} url the remote's url
        */
-      update: function(name, options) {
-        if (options.hasOwnProperty('force')) {
-          this.delete(name);
-          this.create(name, options.url);
-
-          return;
-        }
-
+      update: function(name, url) {
         Repository.then(function(repository) {
           Git.Remote.lookup(repository, name).then(function(remote) {
-            remote.setUrl(options.url);
-
-            if (options.cb) {
-              options.cb(remote.save());
-            } else {
-              return remote.save();
-            }
+            remote.setUrl(url);
+            remote.save();
+          }, function() {
+            Git.Remote.create(repository, name, url);
           });
         });
       }

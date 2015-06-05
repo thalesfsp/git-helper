@@ -1,11 +1,8 @@
 {
   "name": "git-helper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A JS library to help with basic Git commands",
   "main": "git-helper.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thalesfsp/git-helper.git"
@@ -22,6 +19,6 @@
   },
   "homepage": "https://github.com/thalesfsp/git-helper#readme",
   "dependencies": {
-    "nodegit": "nodegit/nodegit#master"
+    "nodegit": "^0.4.*"
   }
 }
